@@ -1,4 +1,6 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
+
+const moment = require('moment')
 
 // scheme for thought 
 const thoughtSchema = new Schema (
@@ -13,7 +15,7 @@ const thoughtSchema = new Schema (
         type: Date,
         default: Date.now,
         // makes the data readable 
-        get: createdAtVal => dateFormat(createdAtVal)
+        get: createdAtVal => moment(createdAtVal).format("MMM DD, YYYY [at] hh:mm a")
       },
       username: {
         type: String,
