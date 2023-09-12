@@ -102,3 +102,40 @@ updateUser = (req, res) => {
             res.status(500).json(error);
         });
 }
+
+
+
+
+
+
+
+
+
+// delete a user 
+
+
+deleteUser = (req, res) => {
+    try {
+        const userId = req.params.userId;
+
+        // Attempt to find and delete the user
+        const userToDelete = await User.findOneAndDelete({ _id: userId });
+
+        if (!userToDelete) {
+            // If user not found, send 404 status
+            res.status(404).json({ message: 'No User found with this ID!' });
+            return;
+        }
+
+        // If user found, delete associated thoughts
+        await Thought.deleteMany({ _id: { $in: userToDelete.thoughts } });
+
+        // Send confirmation 
+        res.json({ message: 'User and Thoughts deleted!' });
+        
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        res.status(500).json(error);
+    }
+}
+
