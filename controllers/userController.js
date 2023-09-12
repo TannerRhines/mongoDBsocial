@@ -67,3 +67,38 @@ getUser = (req, res) => {
             res.status(500).json(error);
         });
 }
+
+
+
+
+
+
+// update a user 
+
+updateUser = (req, res) => {
+    // Extract user ID and update data from the request
+    const userId = req.params.userId;
+    const updateData = req.body;
+    
+    // Configuration options for the update
+    const options = {
+        runValidators: true,
+        new: true
+    };
+    
+    // Attempt to find and update the user
+    User.findOneAndUpdate({ _id: userId }, { $set: updateData }, options)
+        .then((updatedUser) => {
+            if (!updatedUser) {
+                // If user not found, send 404 status
+                res.status(404).json({ message: 'No User found with this ID!' });
+            } else {
+                // If user found and updated, send back updated version
+                res.json(updatedUser);
+            }
+        })
+        .catch((error) => {
+            console.error("Error updating user:", error);
+            res.status(500).json(error);
+        });
+}
