@@ -4,7 +4,40 @@ const { Schema, model, Types } = require('mongoose');
 // imported timestamp package to help format timestamp
 const moment = require('moment')
 
-// scheme for thought 
+
+//here is the reaction schema
+const reactionSchema = new Schema (
+    {
+       reactionId: {
+        type: Schema.Types.ObjectId,
+        default: () => new Types.ObjectId(),
+       },
+       reactionBody: {
+        type: String,
+        required: true,
+        maxlength: 280,
+       },
+       username: {
+        type: String,
+        required: true,
+       },
+       createdAt: {
+        type: Date,
+        default: Date.now,
+        get: createdAtVal => moment(createdAtVal).format("MMM DD, YYYY [at] hh:mm a"),
+       },
+    },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true
+        },
+        id: false,
+    }
+)
+
+
+// and here is the schema for a thought 
 const thoughtSchema = new Schema (
     {
       thoughtText: {
@@ -28,6 +61,7 @@ const thoughtSchema = new Schema (
     {
         toJSON: {
             virtuals: true,
+            getters: true,
         },
         id: false,
     }
