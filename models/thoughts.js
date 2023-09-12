@@ -1,5 +1,7 @@
 const { Schema, model, Types } = require('mongoose');
 
+
+// imported timestamp package to help format timestamp
 const moment = require('moment')
 
 // scheme for thought 
