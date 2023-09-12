@@ -16,7 +16,7 @@ getUser = (req, res) => {
         res.json(allUsers);
       })
       .catch((err) => {
-        console.error(err); // Log the error for debugging
+        console.error(err); // Log error for debugging
         res.status(500).json({ message: "An error occurred while fetching users.", error: err.message });
       });
   };
@@ -26,7 +26,7 @@ getUser = (req, res) => {
 
   
 
-  
+
 //   getting a single user from DB
 
   getSingleUser = (req, res) => {
@@ -42,7 +42,28 @@ getUser = (req, res) => {
         return res.json(user);
       })
       .catch((err) => {
-        console.error(err); // Log the error for debugging
+        console.error(err); // Log error for debugging
         return res.status(500).json({ message: 'An error occurred while fetching the user.', error: err.message });
       });
   };
+
+
+
+
+//   create a new user 
+
+  createUser = (req, res) => {
+    // Extract request body
+    const newUserData = req.body;
+    
+    // Attempt to create a new user
+    User.create(newUserData)
+        .then((createdUser) => {
+            // Send back the created user as JSON
+            res.json(createdUser);
+        })
+        .catch((error) => {
+            console.error("Error creating user:", error);
+            res.status(500).json(error);
+        });
+}
