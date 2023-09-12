@@ -4,9 +4,7 @@ const { User, Thought } = require('../models');
 
 
 
-// get all the users in DB
-
-
+// get all the users from DB
 
 getUser = (req, res) => {
     User.find()
@@ -24,6 +22,12 @@ getUser = (req, res) => {
   };
 
 
+
+
+  
+
+  
+//   getting a single user from DB
 
   getSingleUser = (req, res) => {
     const userId = req.params.userId;
