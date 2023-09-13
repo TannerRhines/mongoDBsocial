@@ -1,13 +1,13 @@
 
 
 const { User, Thought } = require('../models');
-const { trusted } = require("mongoose");
-const { json } = require("express/lib/response");
 
 
 
 
 
+
+module.exports = {
 
 
 // get all thoughts in DB
@@ -16,7 +16,7 @@ getThought = (req,res) => {
     Thought.find({})
     .then((thought) => res.json(thought))
     .catch((err) => res.status(500).json(err));
-}
+},
 
 
 
@@ -41,7 +41,7 @@ getSingleThought = (req, res) => {
         console.error("Error getting single thought:", error);
         res.status(500).json(error);
     }
-}
+},
 
 
 
@@ -73,7 +73,7 @@ createThought = (req, res) => {
       .catch((err) => {
         res.status(500).json(err);
       });
-  }
+  },
 
   
   
@@ -101,7 +101,7 @@ updateThought = (req, res) => {
     .catch((err) => {
       res.status(500).json(err);
     });
-  };
+  },
   
 
 
@@ -111,7 +111,7 @@ updateThought = (req, res) => {
 
 // delete thought
 
-const deleteThought = (req, res) => {
+deleteThought = (req, res) => {
 
     // find and delete the thought by its ID
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
@@ -139,7 +139,7 @@ const deleteThought = (req, res) => {
         // Handle any errors
         res.status(500).json(err);
       });
-  };
+  },
   
 
 
@@ -148,7 +148,7 @@ const deleteThought = (req, res) => {
 
 // create reaction
 
-const createReaction = (req, res) => {
+createReaction = (req, res) => {
 
     // find thought by id and add new reaction 
     Thought.findOneAndUpdate(
@@ -167,7 +167,7 @@ const createReaction = (req, res) => {
       // Handle any errors
       res.status(500).json(err);
     });
-  };
+  },
 
 
 
@@ -195,5 +195,6 @@ deleteReaction = (req, res) => {
     .catch((err) => {
       res.status(500).json(err);
     });
-  };
+  },
   
+}
