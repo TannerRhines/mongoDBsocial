@@ -6,7 +6,8 @@ users can create an account, share their thoughts, add other users, and react to
 
 
 
------------------------------------------------------------
+## Preview 
+
 view a walkthrough demonstration video of the backend here:
 
 https://drive.google.com/file/d/1daem2D4Giaf7S4HIf14W_iLd0M4qwjSW/view?usp=sharing
@@ -17,14 +18,19 @@ https://drive.google.com/file/d/1daem2D4Giaf7S4HIf14W_iLd0M4qwjSW/view?usp=shari
 ## Installation 
 
 
+
+- npm install express
 - must have MongoDB and NodeJS installed to use this app
+
 
 
 ## Usage
 
+
 - after installation, open an intergrated terminal in your code editor.
 
 - to test the routes, use an API testing platform such as Postman or Insomnia
+
 
 ## Technologies Used
 
