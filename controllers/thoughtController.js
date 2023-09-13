@@ -1,6 +1,7 @@
 
 
 const { User, Thought } = require('../models');
+const { trusted } = require("mongoose");
 const { json } = require("express/lib/response");
 
 
@@ -47,8 +48,6 @@ getSingleThought = (req, res) => {
 
 
 
-
-
 // create thought
 
 
@@ -80,10 +79,6 @@ createThought = (req, res) => {
   
 
 
-
-
-
-
 // update thought
 
 
@@ -113,7 +108,7 @@ updateThought = (req, res) => {
 
 
 
-  
+
 // delete thought
 
 const deleteThought = (req, res) => {
@@ -153,6 +148,28 @@ const deleteThought = (req, res) => {
 
 // create reaction
 
+const createReaction = (req, res) => {
+
+    // find thought by id and add new reaction 
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId }, 
+      { $addToSet: { reactions: req.body } }, 
+      { runValidators: true, new: true }  
+    )
+    .then((thought) => {
+      if (!thought) {
+        res.status(404).json({ message: 'No thought found with this ID!' });
+      } else {
+        res.json(thought);
+      }
+    })
+    .catch((err) => {
+      // Handle any errors
+      res.status(500).json(err);
+    });
+  };
+
+
 
 
 
@@ -160,3 +177,23 @@ const deleteThought = (req, res) => {
 
 // delete reaction
 
+
+deleteReaction = (req, res) => {
+
+    Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },  
+      { $pull: { reactions: { reactionId: req.params.reactionId } } }, 
+      { runValidators: true, new: true } 
+    )
+    .then((thought) => {
+      if (!thought) {
+        res.status(404).json({ message: 'No thought found with this ID!' });
+      } else {
+        res.json(thought);
+      }
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+  };
+  
