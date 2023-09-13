@@ -58,8 +58,10 @@ module.exports = {
       });
   },
 
+  
 
 // update an existing user
+
   updateUser(req, res) {
     const userId = req.params.userId;
     const updateData = req.body;
@@ -84,6 +86,8 @@ module.exports = {
   },
 
 // delete a user
+
+
   async deleteUser(req, res) {
     try {
         const userId = req.params.userId;
