@@ -33,20 +33,22 @@ module.exports = {
     Thought.create(req.body)
       .then(({ _id }) => {
         return User.findOneAndUpdate(
-          { _id: req.params.userId },
+          { _id: req.body.userId },
           { $push: { thoughts: _id } },
           { new: true }
         );
       })
-      .then(thought => {
+      .then((thought) => {
         if (!thought) {
-          res.status(404).json({ message: 'No User found with this ID!' });
-        } else {
-          res.json(thought);
+            return res.status(404).json({ message: "No User found with this ID!" });
         }
-      })
-      .catch(err => res.status(500).json(err));
+        return res.json(thought);
+    })
+    .catch((err) => {
+        return res.status(500).json(err);
+    });
   },
+  
 
   // Update an existing thought
   updateThought(req, res) {
@@ -68,26 +70,22 @@ module.exports = {
   // Delete a thought
   deleteThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
-      .then(thought => {
-        if (!thought) {
-          return res.status(404).json({ message: 'No thought found with this ID!' });
-        }
-
-        return User.findOneAndUpdate(
-          { _id: req.params.userId },
-          { $pull: { thoughts: req.params.thoughtId } },
-          { new: true }
-        );
-      })
-      .then(user => {
-        if (!user) {
-          res.status(404).json({ message: 'No user found with this ID!' });
-        } else {
-          res.json(user);
-        }
-      })
-      .catch(err => res.status(500).json(err));
-  },
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: "No thought find with this ID!" })
+          : User.findOneAndUpdate(
+              { thoughts: req.params.thoughtId },
+              { $pull: { thoughts: req.params.thoughtId } },
+              { new: true }
+            )
+      )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'Thought deleted, but no user found'})
+          : res.json({ message: 'Thought successfully deleted' })
+      )
+      .catch((err) => res.status(500).json(err));
+  },  
 
   // Create a reaction
   createReaction(req, res) {

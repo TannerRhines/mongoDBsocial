@@ -49,11 +49,15 @@ const thoughtSchema = new Schema (
       createdAt: {
         type: Date,
         default: Date.now,
-        // makes the data readable 
         get: createdAtVal => moment(createdAtVal).format("MMM DD, YYYY [at] hh:mm a")
       },
       username: {
         type: String,
+        required: true,
+      },
+      userId: {  // Added this field to associate a thought with a user
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
       },
       reactions: [reactionSchema],
@@ -66,6 +70,7 @@ const thoughtSchema = new Schema (
         id: false,
     }
 )
+
 
 // get total count of friends
 thoughtSchema.virtual('reactionCount')
