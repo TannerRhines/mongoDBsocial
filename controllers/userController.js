@@ -43,18 +43,19 @@ module.exports = {
 
 
 
-// create a new user
-  createUser(req, res) {
+
+  // Create a new user
+  createUser: (req, res) => {
     const newUserData = req.body;
 
     User.create(newUserData)
-        .then((createdUser) => {
-            res.json(createdUser);
-        })
-        .catch((error) => {
-            console.error("Error creating user:", error);
-            res.status(500).json(error);
-        });
+      .then((createdUser) => {
+        res.json(createdUser);
+      })
+      .catch((error) => {
+        console.error("Error creating user:", error);
+        res.status(500).json(error);
+      });
   },
 
 
