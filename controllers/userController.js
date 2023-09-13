@@ -8,7 +8,7 @@ const { json } = require('express/lib/response');
 // get all the users from DB
 
 getUser = (req, res) => {
-    User.find()
+    User.find({})
       .select("-__v") // Excludes the __v field
       .then((allUsers) => {
         if (!allUsers.length) {
