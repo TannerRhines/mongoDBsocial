@@ -1,6 +1,7 @@
 
 
 const { User, Thought } = require('../models');
+const { json } = require("express/lib/response");
 
 
 
@@ -42,4 +43,34 @@ getSingleThought = (req, res) => {
 }
 
 
+
+// create thought
+
+
+
+
+
+
+
+// update thought
+
+
+
+
+
+// delete thought
+
+
+
+
+
+
+// create reaction
+
+
+
+
+
+
+// delete reaction
 
