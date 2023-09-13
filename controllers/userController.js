@@ -1,4 +1,5 @@
 const { User, Thought } = require('../models');
+const { json } = require('express/lib/response');
 
 
 
@@ -33,6 +34,8 @@ getUser = (req, res) => {
     const userId = req.params.userId;
   
     User.findOne({ _id: userId })
+      .populate( 'thoughts' )
+      .populate( 'friends' )
       .select('-__v')
       .then((user) => {
         if (!user) {
@@ -139,3 +142,42 @@ deleteUser = (req, res) => {
     }
 }
 
+
+
+
+
+addFriend = (req,res) => {
+    User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $push: { friends: req.params.friendId }},
+        { new: true }
+    )
+    .then((friend) => {
+    !friend
+        // simplified syntax
+        ? res.status(404).json({ message: 'No User find with this ID!'})
+        : res.json(friend)
+    })
+    .catch((err) => res.status(500).json(err));
+},
+
+
+
+
+//delete a friend
+
+
+deleteFriend(req,res) {
+    User.findOneAndUpdate(
+    { _id: req.params.userId },
+    { $pull: { friends: req.params.friendId }},
+    { new: true }
+    )
+    .then((friend) => {
+    !friend
+        // simplified syntax
+        ? res.status(404).json({ message: 'No User find with this ID!'})
+        : res,json(friend)
+    })
+    .catch((err) => res.status(500).json(err));
+}
